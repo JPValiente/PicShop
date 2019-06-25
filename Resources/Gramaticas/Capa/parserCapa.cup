@@ -1,0 +1,33 @@
+package Parsers;
+
+import java_cup.runtime.*;
+import EstructurasDeDatos.Cola;
+import Nodos.NodoMatriz;
+
+parser code {:
+
+	Cola cola = new Cola();
+	// Connect this parser to a scanner!
+	public CUPCapa(LexCapas lex) {
+		super(lex);
+	}		   	 
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal Object        CAPA,ID,LLAVEABIERTA,LLAVECERRADA,PUNTOYCOMA,COMA;
+terminar String        NUMERO,HEXA;
+/* Non-terminals */
+non terminal Object           s0,s1;
+
+/* The grammar */
+
+//Acciones
+
+s0 ::= ID LLAVEABIERTA s1 LLAVECERRADA {::}; //Llamar un metodo estatico que cree la matriz
+
+s1 ::= s1 s1; \\Llamada asi mismo
+
+s1 ::= NUMERO:R1 COMA NUMERO:R2 COMA HEXA:R3 PUNTOYCOMA {:cola.encolar(new NodoLista(cola.size(), new NodoMatriz(Integer.parseInt(R1),Integer.parseInt(R2),R3)));:};
+
+
+
