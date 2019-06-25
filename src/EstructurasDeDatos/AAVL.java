@@ -100,7 +100,65 @@ public class AAVL {
                     }
                 }
             }
+        } else {
+            System.out.println("Nodo duplicado");
         }
+        if(subAr.getIzq() == null && subAr.getDer() != null) {
+            subAr.setFactorEquilibrio(subAr.getDer().getFactorEquilibrio() + 1);
+        } else if (subAr.getDer() == null && subAr.getIzq() != null) {
+            subAr.setFactorEquilibrio(subAr.getIzq().getFactorEquilibrio() + 1);
+        } else {
+            subAr.setFactorEquilibrio(Math.max(obtenerFe(subAr.getIzq()), obtenerFe(subAr.getDer())) + 1);
+        }
+        return nuevoPadre;
+    }
+    
+    public void insertar(int id,Object info) {
+        NodoAVL nuevo = new NodoAVL(id,info);
+        if(raiz == null) {
+            raiz = nuevo;
+        } else {
+            raiz = insertarAVL(nuevo,raiz);
+        }
+    }
+    
+    private void inOrden(NodoAVL nodo)
+    {
+        if( null == nodo ) return;
+        inOrden( nodo.getIzq() );
+        System.out.println( "{ Llave: " + nodo.getClave() + " }\n" );
+        inOrden( nodo.getDer() );
+    }
+    
+    private void preOrden(NodoAVL nodo)
+    {
+        if( null == nodo ) return;
+        System.out.println( "{ Llave: " + nodo.getClave() + " }\n" );
+        preOrden( nodo.getIzq() );
+        preOrden( nodo.getDer() );
+    }
+    
+    private void postOrden(NodoAVL nodo)
+    {
+        if( null == nodo ) return;
+        postOrden( nodo.getIzq() );
+        postOrden( nodo.getDer() );
+        System.out.println( "{ Llave: " + nodo.getClave() + " }\n" );
+    }
+    
+    
+    
+    public void inOrden()
+    {
+        inOrden(this.raiz);
+    }
+    
+    public void preOrden(){
+        preOrden(this.raiz);
+    }
+    
+    public void postOrden(){
+        postOrden(this.raiz);
     }
     
     
