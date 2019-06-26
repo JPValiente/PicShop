@@ -13,58 +13,74 @@ public class NodoMatriz {
     int x;
     int y;
     String hexaColor;
-    NodoMatriz izquierda,arriba,derecha,abajo;
+    NodoMatriz antColumna,antFila,sigColumna,sigFila;
     
     public NodoMatriz(int x, int y, String hexaColor) {
         this.x = x;
         this.y = y;
         this.hexaColor = hexaColor;
-        izquierda = arriba = derecha = abajo = null;
+        antColumna = antFila = sigColumna = sigFila = null;
+    }
+
+    public NodoMatriz getSigColumna() {
+        return sigColumna;
+    }
+
+    public NodoMatriz getSigFila() {
+        return sigFila;
+    }
+
+    public void setSigColumna(NodoMatriz sigColumna) {
+        this.sigColumna = sigColumna;
+    }
+
+    public void setSigFila(NodoMatriz sigFila) {
+        this.sigFila = sigFila;
     }
 
     public int getX() {
         return x;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public int getY() {
         return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public String getHexaColor() {
         return hexaColor;
     }
 
-    public NodoMatriz getIzquierda() {
-        return izquierda;
+    public void setHexaColor(String hexaColor) {
+        this.hexaColor = hexaColor;
     }
 
-    public void setIzquierda(NodoMatriz izquierda) {
-        this.izquierda = izquierda;
+    public NodoMatriz getAntColumna() {
+        return antColumna;
     }
 
-    public NodoMatriz getArriba() {
-        return arriba;
+    public void setAntColumna(NodoMatriz antColumna) {
+        this.antColumna = antColumna;
     }
 
-    public void setArriba(NodoMatriz arriba) {
-        this.arriba = arriba;
+    public NodoMatriz getAntFila() {
+        return antFila;
     }
 
-    public NodoMatriz getDerecha() {
-        return derecha;
+    public void setAntFila(NodoMatriz antFila) {
+        this.antFila = antFila;
     }
+    
+    
 
-    public void setDerecha(NodoMatriz derecha) {
-        this.derecha = derecha;
-    }
-
-    public NodoMatriz getAbajo() {
-        return abajo;
-    }
-
-    public void setAbajo(NodoMatriz abajo) {
-        this.abajo = abajo;
-    }
+    
     
     
     

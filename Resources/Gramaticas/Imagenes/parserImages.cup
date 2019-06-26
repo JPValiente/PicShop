@@ -1,0 +1,25 @@
+package Parsers;
+
+import java_cup.runtime.*;
+
+
+parser code {:
+	// Connect this parser to a scanner!
+	public parser(LexImages lex) {
+		super(lex);
+	}		   	 	
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal String        NUMERO,COMA,LLAVEABIERTA,LLAVECERRADA;
+/* Non-terminals */
+non terminal Object           s0,s1;
+
+/* The grammar */
+
+//Acciones
+
+s0 ::= NUMERO:E1 LLAVEABIERTA s1 LLAVECERRADA;
+s1 ::= s1 COMA s1;
+s1 ::= NUMERO:K1 {::}
+

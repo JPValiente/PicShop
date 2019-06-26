@@ -1,0 +1,24 @@
+package Parsers;
+
+import java_cup.runtime.*;
+
+parser code {:
+	// Connect this parser to a scanner!
+	public parserUsers(LexUsers lex) {
+		super(lex);
+	}		   	 	
+:}
+
+/* Terminals (tokens returned by the scanner). */
+terminal String        DOSPUNTOS,PUNTOYCOMA,COMA,NUMERO,ID;
+/* Non-terminals */
+non terminal Object           s0,s1;
+
+/* The grammar */
+
+//Acciones
+
+s0 ::= ID:S1 DOSPUNTOS s1 PUNTOYCOMA;
+s1 ::= s1 COMA s1;
+s1 ::= NUMERO {::} //Hacer algo
+

@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+*/
 package EstructurasDeDatos;
 
 import Nodos.NodoLista;
@@ -27,11 +27,41 @@ public class ListaDoble {
     
     public void insertar(NodoLista nodo){
         if(!listaVacia()){
-            fin.setSiguiente(nodo);
-            nodo.setAnterior(fin);
-            fin = nodo;
+            if(nodo.getId() < inicio.getId()) {
+                nodo.setSiguiente(inicio);
+                inicio.setAnterior(nodo);
+                inicio = nodo;
+            } else if (nodo.getId() > inicio.getId() && nodo.getId() < fin.getId()) {
+                NodoLista aux = inicio;
+                boolean repetido = false;
+                while(aux.getSiguiente() != null && aux.getId() < nodo.getId()) {
+                    if(aux.getId() == nodo.getId()) {
+                        repetido = true;
+                        break;
+                    }
+                    aux = aux.getSiguiente(); 
+                }
+                if(repetido) {
+                    System.out.println("Valor repetido");
+                } else {
+                    NodoLista anterior = aux.getAnterior();
+                    NodoLista siguiente = aux.getSiguiente();
+                    anterior.setSiguiente(nodo);
+                    siguiente.setAnterior(nodo);
+                    nodo.setAnterior(anterior);
+                    nodo.setSiguiente(siguiente);
+                }
+            } else if (nodo.getId() > fin.getId()){
+                fin.setSiguiente(nodo);
+                nodo.setAnterior(fin);
+                fin = nodo;
+            } else if (nodo.getId() == inicio.getId() || nodo.getId() == fin.getId()) {
+                System.out.println("Valor repetido");
+            }
         } else {
-            System.out.println("Lista vacia");
+            inicio = fin = nodo;
+            inicio.setSiguiente(fin);
+            fin.setAnterior(inicio);
         }
     }
 
