@@ -21,6 +21,7 @@ public class MatrizDispersa {
     
     public MatrizDispersa() {
         inicio = new NodoMatriz(0,0,null);
+        totalNodos = totalFilas = totalColumnas = 0;
     }
     
     public void insertarNodo(NodoMatriz nodo) {
