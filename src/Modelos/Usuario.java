@@ -23,6 +23,11 @@ public class Usuario {
         this.imagenes = new ListaDoble();
     }
     
+    public Usuario(int id, String nombre, ListaDoble imagenes) {
+        this(id,nombre);
+        this.imagenes = imagenes;
+    }
+    
     public int getID(){
         return this.id;
     }
@@ -31,11 +36,11 @@ public class Usuario {
         return this.nombre;
     }
     
-    public void agregarImagen(int id,Imagen imagen){
-        imagenes.insertar(new NodoLista(id,imagen));
+    public void agregarImagen(String id,Imagen imagen){
+        imagenes.insertar(id,new NodoLista(id,imagen));
     }
     
-    public void eliminarImagen(int id){
+    public void eliminarImagen(String id){
         imagenes.eliminar(id);
     }
     

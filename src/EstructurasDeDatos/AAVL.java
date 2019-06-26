@@ -19,16 +19,17 @@ public class AAVL {
         this.raiz = null;
     }
     
-    public NodoAVL buscar(int id,NodoAVL raiz) {
+    public NodoAVL buscar(String id,NodoAVL raiz) {
         if(raiz == null) {
             return null;
-        } else if (raiz.getClave() == id) {
+        } if (id.compareTo(raiz.getClave()) == 0) {
             return raiz;
-        } else if (raiz.getClave() < id) {
+        } if (id.compareTo(raiz.getClave()) == 1) {
             return buscar(id,raiz.getDer());
-        } else {
+        } if (id.compareTo(raiz.getClave()) == -1){
             return buscar(id,raiz.getIzq());
         }
+        return null;
     }
     
     public int obtenerFe(NodoAVL x){
@@ -74,26 +75,28 @@ public class AAVL {
     
     public NodoAVL insertarAVL(NodoAVL nuevo, NodoAVL subAr) {
         NodoAVL nuevoPadre = subAr;
-        if(nuevo.getClave() < subAr.getClave()) {
+        if(nuevo.getClave().compareTo(subAr.getClave()) == -1) {
+            
             if (subAr.getIzq() == null) {
                 subAr.setIzq(nuevo);
             } else {
                 subAr.setIzq(insertarAVL(nuevo,subAr.getIzq() ));
                 if(obtenerFe(subAr.getIzq()) - obtenerFe(subAr.getDer()) == 2) {
-                    if(nuevo.getClave() < subAr.getIzq().getClave()) {
+                    if(nuevo.getClave().compareTo(subAr.getIzq().getClave()) == -1) {
+                        
                         nuevoPadre = rotacionIzquierda(subAr);
                     } else {
                         nuevoPadre = rotacionDerecha(subAr);
                     }
                 }
             }
-        } else if (nuevo.getClave() > subAr.getClave()) {
+        } else if (nuevo.getClave().compareTo(subAr.getClave()) == 1) {
             if(subAr.getDer() == null) {
                 subAr.setDer(nuevo);
             } else {
                 subAr.setDer(insertarAVL(nuevo,subAr.getDer()));
                 if (obtenerFe(subAr.getDer()) - obtenerFe(subAr.getIzq()) == 2) {
-                    if (nuevo.getClave() > subAr.getDer().getClave()) {
+                    if (nuevo.getClave().compareTo(subAr.getDer().getClave()) == 1) {
                         nuevoPadre = rotacionDerecha(subAr);
                     } else {
                         nuevoPadre = rotacionIzquierda(subAr);   
@@ -113,7 +116,7 @@ public class AAVL {
         return nuevoPadre;
     }
     
-    public void insertar(int id,Object info) {
+    public void insertar(String id,Object info) {
         NodoAVL nuevo = new NodoAVL(id,info);
         if(raiz == null) {
             raiz = nuevo;

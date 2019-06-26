@@ -10,14 +10,14 @@ package Nodos;
  * @author anclenius
  */
 public class NodoAVL {
-    private int clave;
+    private String clave;
     private NodoAVL izq;
     private NodoAVL der;
     private Object info;
     private int fe;
 
     
-    public NodoAVL(int clave,Object info){
+    public NodoAVL(String clave,Object info){
         this.clave = clave;
         this.info = info;
         this.izq = null;
@@ -33,11 +33,11 @@ public class NodoAVL {
         this.info = info;
     }
  
-    public int getClave() {
+    public String getClave() {
         return clave;
     }
 
-    public void setClave(int clave) {
+    public void setClave(String clave) {
         this.clave = clave;
     }
 

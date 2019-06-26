@@ -5,10 +5,26 @@
  */
 package Modelos;
 
+import EstructurasDeDatos.MatrizDispersa;
+
 /**
  *
  * @author anclenius
  */
 public class Capa {
+    private int id;
+    private MatrizDispersa matriz;
     
+    public Capa(int id,MatrizDispersa matriz) {
+        this.id = id;
+        this.matriz = matriz;
+    }
+    
+    public int getId(){
+        return this.id;
+    }
+    
+    public MatrizDispersa getMatriz() {
+        return this.matriz;
+    }
 }

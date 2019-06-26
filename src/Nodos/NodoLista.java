@@ -10,21 +10,21 @@ package Nodos;
  * @author anclenius
  */
 public class NodoLista {
-    int id;
+    String id;
     NodoLista anterior;
     NodoLista siguiente;
     Object info;
     
-    public NodoLista(int id,Object info){
+    public NodoLista(String id,Object info){
         this.id = id;
         this.info = info;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

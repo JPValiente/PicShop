@@ -17,6 +17,7 @@ public class Cola {
     
     public Cola(){
         inicio = fin = null;
+        size = 0;
     }
     
     public int size() {
@@ -29,13 +30,19 @@ public class Cola {
             fin = nuevo;
             size++;
         } else {
-            System.out.println("Cola Vacia");
+            inicio = fin = nuevo;
         }
     }
     
     public NodoLista descolar() {
         if(!estaVacia()) {
             NodoLista aux = inicio;
+            if(inicio == fin) {
+                inicio = fin = null;
+                size--;
+                return aux;
+            }
+            
             inicio = inicio.getSiguiente();
             size--;
             return aux;

@@ -12,8 +12,7 @@ import Nodos.NodoMatriz;
  * @author Tito Valiente
  */
 public class MatrizDispersa {
-    private ListaDoble xAxis;
-    private ListaDoble yAxis;
+
     private int totalNodos;
     private int totalFilas;
     private int totalColumnas;
@@ -54,6 +53,7 @@ public class MatrizDispersa {
                         totalFilas++;
                         return nuevo;
                     }
+                    aux = aux.getSigFila();
                 }
                 aux.setSigFila(nuevo);
                 nuevo.setAntFila(aux);
@@ -86,6 +86,7 @@ public class MatrizDispersa {
                         totalColumnas++;
                         return nuevo;
                     }
+                    aux = aux.getSigColumna();
                 }
                 aux.setSigColumna(nuevo);
                 nuevo.setAntColumna(aux);
@@ -118,7 +119,19 @@ public class MatrizDispersa {
         return insertarColumna(columna);
     }
     
-    public void insertar(int fila, int columna,String color) {
+    public NodoMatriz triangular(int columna,int fila) {
+        NodoMatriz nodoColumna = obtenerColumna(columna);
+        NodoMatriz aux = nodoColumna;
+        while(aux != null) {
+            if(aux.getY() == fila) {
+                return aux;
+            }
+            aux = aux.getSigFila();
+        }
+        return null;
+    }
+    
+    public void insertar(int columna, int fila,String color) {
         NodoMatriz nuevo = new NodoMatriz(columna,fila,color);
         NodoMatriz inicioFila = obtenerFila(fila);
         NodoMatriz inicioColumna = obtenerColumna(columna);
@@ -145,8 +158,9 @@ public class MatrizDispersa {
                         nuevo.setAntFila(aux);
                         aux.setSigFila(nuevo);
                         insertado = true;
-                        
+                        break;
                     }
+                    aux = aux.getSigFila();
                 }
                 if (!insertado) {
                     aux.setSigFila(nuevo);
@@ -175,7 +189,9 @@ public class MatrizDispersa {
                         nuevo.setAntColumna(aux);
                         aux.setSigColumna(nuevo);
                         insertado = true;
+                        break;
                     }
+                    aux = aux.getSigColumna();
                 }
                 if(!insertado) {
                     aux.setSigColumna(nuevo);
@@ -184,6 +200,24 @@ public class MatrizDispersa {
             }
         }
     totalNodos++;
+    }
+    
+    public void graficarMatriz(){
+        String salida = "digraph dibujo{\nnode [shape=plaintext]\na [label=<<TABLE BORDER=\"1\" CELLBORDER=\"1\" CELLSPACING=\"0\">\n";
+        for(int y = 1;y<this.totalFilas + 1;y++) {
+            salida = salida + "<TR>  ";
+            for(int x = 1;x< this.totalColumnas + 1;x++) {
+                if(triangular(x,y) != null) {
+                    salida = salida + "<TD BGCOLOR=\""+triangular(x,y).getHexaColor()+"\"></TD>  ";
+                } else {
+                    salida = salida + "<TD BGCOLOR=\"#FFFFFF\"></TD>  ";
+                }
+            }
+            salida = salida + "</TR>\n";
+        }
+        
+        salida = salida+"</TABLE>>];\n}";
+        System.out.println(salida);
     }
     
 }
