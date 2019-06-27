@@ -5,7 +5,9 @@
  */
 package Modelos;
 
+import EstructurasDeDatos.Cola;
 import EstructurasDeDatos.MatrizDispersa;
+import Nodos.NodoLista;
 
 /**
  *
@@ -26,5 +28,15 @@ public class Capa {
     
     public MatrizDispersa getMatriz() {
         return this.matriz;
+    }
+    
+    public Cola getNodos(){
+        Cola cola = new Cola();
+        for(int y = 1;y<=matriz.totalFilas;y++) {
+            for(int x = 1;x<=matriz.totalColumnas;x++) {
+                cola.encolar(new NodoLista(cola.size()+1 + "",matriz.triangular(x, y)));
+            }
+        }
+        return cola;
     }
 }

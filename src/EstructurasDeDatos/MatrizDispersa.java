@@ -14,9 +14,9 @@ import Nodos.NodoMatriz;
 public class MatrizDispersa {
 
     private int totalNodos;
-    private int totalFilas;
-    private int totalColumnas;
-    private final NodoMatriz inicio;
+    public int totalFilas;
+    public int totalColumnas;
+    private NodoMatriz inicio;
     
     public MatrizDispersa() {
         inicio = new NodoMatriz(0,0,null);
@@ -59,7 +59,10 @@ public class MatrizDispersa {
                 nuevo.setAntFila(aux);
             }
         }
-        totalFilas++;
+        
+        if(fila > totalFilas) {
+            totalFilas = fila;
+        }
         return nuevo;
     }
     
@@ -92,12 +95,14 @@ public class MatrizDispersa {
                 nuevo.setAntColumna(aux);
             }
         }
-        totalColumnas++;
+        if(columna > totalColumnas) {
+            totalColumnas = columna;
+        }
         return nuevo;
     }
     
     
-    public NodoMatriz obtenerFila(int fila) {
+    public NodoMatriz obtenerFila(int fila,boolean flag) {
         NodoMatriz aux = inicio.getSigFila();
         while(aux != null) {
             if(aux.getY() == fila){
@@ -105,10 +110,12 @@ public class MatrizDispersa {
             }
             aux = aux.getSigFila();
         }
-        return insertarFila(fila);
+        if(flag)
+            return insertarFila(fila);
+        return null;
     }
     
-    public NodoMatriz obtenerColumna(int columna) {
+    public NodoMatriz obtenerColumna(int columna,boolean flag) {
         NodoMatriz aux = inicio.getSigColumna();
         while(aux != null) {
             if(aux.getX() == columna){
@@ -116,25 +123,39 @@ public class MatrizDispersa {
             }
             aux = aux.getSigColumna();
         }
-        return insertarColumna(columna);
-    }
-    
-    public NodoMatriz triangular(int columna,int fila) {
-        NodoMatriz nodoColumna = obtenerColumna(columna);
-        NodoMatriz aux = nodoColumna;
-        while(aux != null) {
-            if(aux.getY() == fila) {
-                return aux;
-            }
-            aux = aux.getSigFila();
-        }
+        if(flag)
+            return insertarColumna(columna);
         return null;
     }
     
-    public void insertar(int columna, int fila,String color) {
+    public NodoMatriz triangular(int columna,int fila) {
+        NodoMatriz nodoColumna = obtenerColumna(columna,false);
+        if(nodoColumna != null){
+            NodoMatriz aux = nodoColumna;
+            while(aux != null) {
+                if(aux.getY() == fila) {
+                    return aux;
+                }
+                aux = aux.getSigFila();
+            }
+            return null;
+        } else {
+            return null;
+        }
+    }
+    
+    public void insertar(int fila, int columna,String color) {
         NodoMatriz nuevo = new NodoMatriz(columna,fila,color);
-        NodoMatriz inicioFila = obtenerFila(fila);
-        NodoMatriz inicioColumna = obtenerColumna(columna);
+        this.insertar(nuevo);
+    }
+    
+    public void insertar(NodoMatriz nodito) {
+        NodoMatriz nuevo = nodito;
+        int fila = nodito.getY();
+        int columna = nodito.getX();
+        String color = nodito.getHexaColor();
+        NodoMatriz inicioFila = obtenerFila(fila,true);
+        NodoMatriz inicioColumna = obtenerColumna(columna,true);
     
         ///////////////////// Insercion en columna /////////////////////
         
@@ -204,9 +225,9 @@ public class MatrizDispersa {
     
     public void graficarMatriz(){
         String salida = "digraph dibujo{\nnode [shape=plaintext]\na [label=<<TABLE BORDER=\"1\" CELLBORDER=\"1\" CELLSPACING=\"0\">\n";
-        for(int y = 1;y<this.totalFilas + 1;y++) {
+        for(int y = 1;y<=this.totalFilas;y++) {
             salida = salida + "<TR>  ";
-            for(int x = 1;x< this.totalColumnas + 1;x++) {
+            for(int x = 1;x<= this.totalColumnas;x++) {
                 if(triangular(x,y) != null) {
                     salida = salida + "<TD BGCOLOR=\""+triangular(x,y).getHexaColor()+"\"></TD>  ";
                 } else {
@@ -218,7 +239,10 @@ public class MatrizDispersa {
         
         salida = salida+"</TABLE>>];\n}";
         System.out.println(salida);
+        
     }
+    
+    
     
 }
  

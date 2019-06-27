@@ -11,7 +11,7 @@ import Nodos.NodoLista;
  *
  * @author Tito Valiente
  */
-public class Cola {
+public class Cola implements Cloneable{
     NodoLista inicio, fin;
     int size;
     
@@ -55,4 +55,31 @@ public class Cola {
         if(inicio == fin && inicio == null) return true;
         return false;
     }
+    
+    public void setInicio(NodoLista nodo){
+        this.inicio = nodo;
+    }
+    
+    public void setFinal(NodoLista nodo){
+        this.fin = nodo;
+    }
+    
+    public NodoLista getInicio(){
+        return this.inicio;
+    }
+    
+    public NodoLista getFinal(){
+        return this.fin;
+    }
+    
+    public void setSize(int size){
+        this.size = size;
+    }
+
+    @Override
+    public Cola clone() throws CloneNotSupportedException {
+        return (Cola)super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

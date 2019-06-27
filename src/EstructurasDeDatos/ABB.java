@@ -28,6 +28,33 @@ public class ABB
             raiz.insertar( llave, dato );
     }
     
+    public NodoAb buscar(int id,NodoAb raiz) {
+        if(estaVacio()) return null;
+        if( id < raiz.llave )
+        {
+            if( null == raiz.izq )
+            {}
+            else
+                return buscar(id,raiz.izq);
+        }
+        else if( id > raiz.llave )
+        {
+            if( null == raiz.der )
+            {}
+            else
+                return buscar(id,raiz.der);
+        }
+        else if (id == raiz.llave)
+        {
+            return raiz;
+        }
+        return null;
+    }
+    
+    public NodoAb buscar(int id){
+        return buscar(id,this.raiz);
+    }
+    
     private void inOrden(NodoAb nodo)
     {
         if( null == nodo ) return;

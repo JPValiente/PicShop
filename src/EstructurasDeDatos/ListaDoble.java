@@ -81,8 +81,12 @@ public class ListaDoble {
         size++;
     }
 
-    public void eliminar(String id){
-        if(listaVacia()) System.out.println("Lista Vacia");
+    public NodoLista eliminar(String id){
+        if(listaVacia()){
+            System.out.println("Lista Vacia");
+            return null;
+        }
+        
         NodoLista aux = inicio;
         while(aux.getSiguiente() != null) {
             if(aux.getId().equals(id))
@@ -95,7 +99,9 @@ public class ListaDoble {
             anterior.setSiguiente(siguiente);
             siguiente.setAnterior(anterior);
             size--;
+            return aux;
         }
+        return null;
     }
     
     public void graficar(){
