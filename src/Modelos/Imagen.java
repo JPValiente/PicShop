@@ -9,6 +9,7 @@ import EstructurasDeDatos.Cola;
 import EstructurasDeDatos.MatrizDispersa;
 import Nodos.NodoLista;
 import Nodos.NodoMatriz;
+import java.io.IOException;
 
 /**
  *
@@ -18,12 +19,13 @@ public class Imagen {
     private String id;
     private Cola capas;
     private Cola cola;
-    private static MatrizDispersa imagen;
+    private MatrizDispersa imagen;
     
     public Imagen(String id) {
         this.id = id;
         capas = new Cola();
         cola = new Cola();
+        imagen = null;
     }
     
     public Imagen(String id,Cola capas) {
@@ -36,17 +38,18 @@ public class Imagen {
         this.capas = capas;
     }
     
-    public void graficar() {
+    public void graficar() throws IOException {
+        System.out.println("Imagen: " + id + "\n\n");
         if(this.imagen == null) {
-            hacerImagen();
-        } else {
-            imagen.graficarMatriz();
-        }
+            imagen = hacerImagen();
+        }   
+        imagen.graficarMatriz();
+        
     }
     
-    public void hacerImagen(){
-        imagen = new MatrizDispersa();
-        if(capas.estaVacia()) return;
+    public MatrizDispersa hacerImagen(){
+        MatrizDispersa imAgen = new MatrizDispersa();
+        if(capas.estaVacia()) return null;
         NodoLista aux = capas.descolar();
         MatrizDispersa capa;
         while(aux != null) {
@@ -56,10 +59,10 @@ public class Imagen {
             for(int y = 1;y <=filas;y++) {
                 for (int x = 1;x<=columnas;x++) {
                     NodoMatriz nodo = capa.triangular(x, y);
-                    System.out.println("Coordenada actual ("+x+","+y+")\n");
+                    //System.out.println("Coordenada actual ("+x+","+y+")\n");
                     if(nodo != null) {
-                        System.out.println("Insertando en X: " + x + " en Y: " + y + " el color: " + nodo.getHexaColor());
-                        imagen.insertar(nodo.getX(), nodo.getY(), nodo.getHexaColor());
+                        //System.out.println("Insertando en X: " + x + " en Y: " + y + " el color: " + nodo.getHexaColor());
+                        imAgen.insertar(nodo.getX(), nodo.getY(), nodo.getHexaColor());
                     }
                 }
             }
@@ -67,8 +70,8 @@ public class Imagen {
             System.out.println("\n\n\n");
             aux = capas.descolar();
         }
-        imagen.graficarMatriz();
         
+        return imAgen;
     }
     
     

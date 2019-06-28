@@ -49,4 +49,26 @@ public class NodoAb {
             System.out.println( "Datos repetidos, no se insertan!" );
         }
     }
+    
+    public void insertar(NodoAb nodo)
+    {
+        if( llave < this.llave )
+        {
+            if( null == this.izq )
+                izq = nodo;
+            else
+                izq.insertar( nodo );
+        }
+        else if( llave > this.llave )
+        {
+            if( null == this.der )
+                der = nodo;
+            else
+                der.insertar( nodo );
+        }
+        else
+        {
+            System.out.println( "Datos repetidos, no se insertan!" );
+        }
+    }
 }

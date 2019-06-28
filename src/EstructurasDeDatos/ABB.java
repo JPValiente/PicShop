@@ -1,12 +1,13 @@
 package EstructurasDeDatos;
 
 import Nodos.NodoAb;
+import Nodos.NodoLista;
 
 public class ABB
 {
     private NodoAb raiz;
     private String nombre;
-    
+    private Cola cola;
     public ABB()
     {
         this( "abb" );    
@@ -26,6 +27,13 @@ public class ABB
             raiz = new NodoAb( llave, dato );
         else
             raiz.insertar( llave, dato );
+    }
+    
+    public void insertar(NodoAb nodo) {
+        if( estaVacio() )
+            raiz = nodo;
+        else
+            raiz.insertar( nodo );
     }
     
     public NodoAb buscar(int id,NodoAb raiz) {
@@ -59,15 +67,14 @@ public class ABB
     {
         if( null == nodo ) return;
         inOrden( nodo.izq );
-        System.out.println( "{ Llave: " + nodo.llave + "\n, o: " + nodo.dato.toString() + " }\n" );
-        System.out.println("\n\n");
+        cola.encolar(new NodoLista((cola.size +1)+"",nodo.dato));
         inOrden( nodo.der );
     }
     
     private void preOrden(NodoAb nodo)
     {
         if( null == nodo ) return;
-        System.out.println( "{ Llave: " + nodo.llave + "\n, o: " + nodo.dato.toString() + " }\n" ); System.out.println("\n\n");
+        cola.encolar(new NodoLista((cola.size +1)+"",nodo.dato));
         preOrden( nodo.izq );
         preOrden( nodo.der );
     }
@@ -77,22 +84,27 @@ public class ABB
         if( null == nodo ) return;
         postOrden( nodo.izq );
         postOrden( nodo.der );
-        System.out.println( "{ Llave: " + nodo.llave + "\n, o: " + nodo.dato.toString() + " }\n" ); System.out.println("\n\n");
+        cola.encolar(new NodoLista((cola.size +1)+"",nodo.dato));
     }
     
     
     
-    public void inOrden()
+    public Cola inOrden()
     {
+        this.cola = new Cola();
         inOrden(this.raiz);
+        return cola;
+        
     }
     
-    public void preOrden(){
+    public Cola preOrden(){
         preOrden(this.raiz);
+        return cola;
     }
     
-    public void postOrden(){
+    public Cola postOrden(){
         postOrden(this.raiz);
+        return cola;
     }
     
     private int profundidad(NodoAb raiz)

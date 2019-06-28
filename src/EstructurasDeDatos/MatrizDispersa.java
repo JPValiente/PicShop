@@ -6,6 +6,9 @@
 package EstructurasDeDatos;
 
 import Nodos.NodoMatriz;
+import java.io.File;
+import java.io.IOException;
+import picshop.PicShop;
 
 /**
  *
@@ -144,9 +147,10 @@ public class MatrizDispersa {
         }
     }
     
-    public void insertar(int fila, int columna,String color) {
+    public void insertar(int columna, int fila,String color) {
         NodoMatriz nuevo = new NodoMatriz(columna,fila,color);
-        this.insertar(nuevo);
+        if(color.equals("#ffffff") || color.equals("#FFFFFF") || color.equals("#fFfFfF") || color.equals("#FfFfFf")){}else{
+        this.insertar(nuevo);}
     }
     
     public void insertar(NodoMatriz nodito) {
@@ -223,7 +227,7 @@ public class MatrizDispersa {
     totalNodos++;
     }
     
-    public void graficarMatriz(){
+    public void graficarMatriz() throws IOException{
         String salida = "digraph dibujo{\nnode [shape=plaintext]\na [label=<<TABLE BORDER=\"1\" CELLBORDER=\"1\" CELLSPACING=\"0\">\n";
         for(int y = 1;y<=this.totalFilas;y++) {
             salida = salida + "<TR>  ";
@@ -238,7 +242,35 @@ public class MatrizDispersa {
         }
         
         salida = salida+"</TABLE>>];\n}";
-        System.out.println(salida);
+        File imagenSalida = new File("./grafica.dot");
+        if(!imagenSalida.exists()){
+            imagenSalida.createNewFile();
+        } else {
+            imagenSalida.delete();
+            imagenSalida.createNewFile();
+        }
+        PicShop.saveFile(salida, imagenSalida.getAbsolutePath());
+        String command = "dot -Tpng grafica.dot -o ImagenGenerada.png"; 
+        Runtime.getRuntime().exec(command);
+        
+        
+    }
+    
+    //Proximamente
+    public void graficarNodos(){
+        String salida = "digraph dibujo{\n" + "rankdir=UD;\n" + "node[shape=box];\n" + "\n";
+        NodoMatriz nodo = triangular(0,0);
+        salida += "{\n" + "rank=min;\n" + "m[label=\"0\" ];\n";
+        NodoMatriz aux;
+        while(nodo != null) {
+            aux = nodo;
+            while(nodo != null) {
+                
+                aux.getSigColumna();
+            } 
+            nodo = nodo.getSigFila();
+        }
+        
         
     }
     

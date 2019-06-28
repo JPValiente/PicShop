@@ -6,6 +6,7 @@
 package EstructurasDeDatos;
 
 import Nodos.NodoAVL;
+import picshop.NodoDuplicado;
 
 /**
  *
@@ -14,9 +15,11 @@ import Nodos.NodoAVL;
 public class AAVL {
     
     private NodoAVL raiz;
+    public int size;
     
     public AAVL(){
         this.raiz = null;
+        size = 0;
     }
     
     public NodoAVL buscar(String id,NodoAVL raiz) {
@@ -30,6 +33,10 @@ public class AAVL {
             return buscar(id,raiz.getIzq());
         }
         return null;
+    }
+    
+    public NodoAVL buscar(String id) {
+        return buscar(id,this.raiz);
     }
     
     public int obtenerFe(NodoAVL x){
@@ -73,9 +80,9 @@ public class AAVL {
         return aux;
     }
     
-    public NodoAVL insertarAVL(NodoAVL nuevo, NodoAVL subAr) {
+    public NodoAVL insertarAVL(NodoAVL nuevo, NodoAVL subAr) throws NodoDuplicado{
         NodoAVL nuevoPadre = subAr;
-        if(nuevo.getClave().compareTo(subAr.getClave()) == -1) {
+        if(nuevo.getClave().compareTo(subAr.getClave()) < 0) {
             
             if (subAr.getIzq() == null) {
                 subAr.setIzq(nuevo);
@@ -90,7 +97,7 @@ public class AAVL {
                     }
                 }
             }
-        } else if (nuevo.getClave().compareTo(subAr.getClave()) == 1) {
+        } else if (nuevo.getClave().compareTo(subAr.getClave()) > 0) {
             if(subAr.getDer() == null) {
                 subAr.setDer(nuevo);
             } else {
@@ -105,6 +112,8 @@ public class AAVL {
             }
         } else {
             System.out.println("Nodo duplicado");
+            throw new NodoDuplicado();
+            
         }
         if(subAr.getIzq() == null && subAr.getDer() != null) {
             subAr.setFactorEquilibrio(subAr.getDer().getFactorEquilibrio() + 1);
@@ -116,13 +125,14 @@ public class AAVL {
         return nuevoPadre;
     }
     
-    public void insertar(String id,Object info) {
+    public void insertar(String id,Object info) throws NodoDuplicado{
         NodoAVL nuevo = new NodoAVL(id,info);
         if(raiz == null) {
             raiz = nuevo;
         } else {
             raiz = insertarAVL(nuevo,raiz);
         }
+        size++;
     }
     
     private void inOrden(NodoAVL nodo)

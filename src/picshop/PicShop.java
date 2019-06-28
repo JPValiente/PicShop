@@ -5,18 +5,21 @@
  */
 package picshop;
 
-import Nucleo.Manejador;
+import GUI.MainFrame;
 import Parsers.LexCapas;
 import Parsers.LexImages;
+import Parsers.LexUsers;
 import Parsers.parserCapas;
 import Parsers.parserImages;
+import Parsers.parserUsers;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -29,56 +32,30 @@ public class PicShop {
      */
     public static void main(String[] args) {
         
-            //        MatrizDispersa matriz = new MatrizDispersa();
-//        matriz.insertar(2, 1, "#FE2E64");
-//        matriz.insertar(1, 2, "#FE2E64");
-//        matriz.insertar(4, 1, "#FE2E64");
-//        matriz.insertar(3, 2, "#FE2E64");
-//        matriz.insertar(5, 2, "#FE2E64");
-//        matriz.insertar(1, 3, "#FE2E64");
-//        matriz.insertar(5, 3, "#FE2E64");
-//        matriz.insertar(2, 4, "#FE2E64");
-//        matriz.insertar(4, 4, "#FE2E64");
-//        matriz.insertar(3, 5, "#FE2E64");
-//        MatrizDispersa matriz2 = new MatrizDispersa();
+//        try{
+//            
+//            alg();
+//            System.out.println("\n\n\n\n");
+//            System.out.println(Manejador.getCapasSize());
+//            alg2();
+//            System.out.println("\n\n\n\n");
+//            System.out.println(Manejador.getImagesSize());
+//            alg3();
+//            System.out.println("\n\n\n\n");
+//            System.out.println(Manejador.getUsersSize());
+//            Scanner scan = new Scanner(System.in);
+////            System.out.println("Capas: ");
+////            String capas = scan.nextLine();
+////            Manejador.generarImagenInOrden("1", capas);
+//            System.out.println("\n\n\n\n\n\n\n\n\n\n\n-------------Salida--------------\n");
+//            String idUser = scan.nextLine();
+//            String idImage = scan.nextLine();
+//            Manejador.buscarImagenUsuario(idUser, idImage);
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(PicShop.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
-//        matriz2.insertar(2, 2, "#FF0000");
-//        matriz2.insertar(4, 2, "#FF0000");
-//        matriz2.insertar(2, 3, "#FF0000");
-//        matriz2.insertar(3, 3, "#FF0000");
-//        matriz2.insertar(4, 3, "#FF0000");
-//        matriz2.insertar(3, 4, "#FF0000");
-
-//        MatrizDispersa matriz3 = new MatrizDispersa();
-//        matriz3.insertar(1,1,"#000000");
-//        matriz3.insertar(3,1,"#000000");
-//        matriz3.insertar(5,1,"#000000");
-//        matriz3.insertar(1,4,"#000000");
-//        matriz3.insertar(5,4,"#000000");
-//        matriz3.insertar(1,5,"#000000");
-//        matriz3.insertar(2,5,"#000000");
-//        matriz3.insertar(4,5,"#000000");
-//        matriz3.insertar(5,5,"#000000");
-//        Capa capa1 = new Capa(1,matriz);
-//        Capa capa2 = new Capa(2,matriz2);
-//        Capa capa3 = new Capa(3,matriz3);
-//        Cola cola = new Cola();
-//        cola.encolar(new NodoLista("1",capa1));
-//        cola.encolar(new NodoLista("2",capa2));
-//        cola.encolar(new NodoLista("3",capa3));
-//        Imagen imagen = new Imagen("1",cola);
-//        
-//        imagen.graficar();
-        
-
-        try{
-            
-            alg();
-            alg2();
-            System.out.println(Manejador.getCapasSize());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(PicShop.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    new MainFrame();
         
         
         
@@ -91,11 +68,12 @@ public class PicShop {
         while (scan.hasNext()) {
                     buffer += scan.nextLine() + "\n";
         }
+        
         StringReader reader = new StringReader(buffer);
                 LexCapas miLexer = new LexCapas(reader);
                 parserCapas miParser = new parserCapas(miLexer) {};
                 try {
-                    System.out.println("Empezando a parser");
+                    System.out.println("Empezando a parsear capas");
                     miParser.parse();
                     
                 } catch (Exception ex) {
@@ -115,13 +93,54 @@ public class PicShop {
                 LexImages miLexer = new LexImages(reader);
                 parserImages miParser = new parserImages(miLexer) {};
                 try {
-                    System.out.println("Empezando a parser");
+                    System.out.println("Empezando a parsear imagenes");
                     miParser.parse();
                     
                 } catch (Exception ex) {
                     System.out.println("Comando desconocido.");
                     ex.printStackTrace();
                 } 
+    }
+    
+    public static void alg3() throws FileNotFoundException {
+        File file = new File("./Usuarios.usr");
+        Scanner scan = new Scanner(new FileInputStream(file));
+        String buffer = "";
+        while (scan.hasNext()) {
+                    buffer += scan.nextLine() + "\n";
+        }
+        StringReader reader = new StringReader(buffer);
+                LexUsers miLexer = new LexUsers(reader);
+                parserUsers miParser = new parserUsers(miLexer) {};
+                try {
+                    System.out.println("Empezando a parsear usuarios");
+                    miParser.parse();
+                    
+                } catch (Exception ex) {
+                    System.out.println("Comando desconocido.");
+                    ex.printStackTrace();
+                } 
+    }
+    
+    public static void saveFile(String texto,String absolutePath) {
+        
+	FileWriter escritor = null;
+	try {
+            escritor = new FileWriter(absolutePath,true);
+            BufferedWriter out = new BufferedWriter(escritor);
+            out.write("");
+            out.write(texto);
+            out.close();
+	} catch (IOException e) {
+            System.out.println("============== error escribiendo en archivo");
+	} finally {
+            try {
+                escritor.close();
+            } catch (IOException ex) {
+                System.out.println("========no se pudo cerrar archivo");
+            }
+        }
+
     }
     
 }

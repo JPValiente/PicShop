@@ -14,7 +14,7 @@ import Nodos.NodoLista;
  */
 public class ListaDoble {
     
-    NodoLista inicio,fin;
+    public NodoLista inicio,fin;
     public int size;
     
     public ListaDoble() {
@@ -27,48 +27,21 @@ public class ListaDoble {
         return false;
     }
     
-//    public void insertarOrdenado(NodoLista nodo){
-//        if(!listaVacia()){
-//            if(nodo.getId() < inicio.getId()) {
-//                nodo.setSiguiente(inicio);
-//                inicio.setAnterior(nodo);
-//                inicio = nodo;
-//            } else if (nodo.getId() > inicio.getId() && nodo.getId() < fin.getId()) {
-//                NodoLista aux = inicio;
-//                boolean repetido = false;
-//                while(aux.getSiguiente() != null && aux.getId() < nodo.getId()) {
-//                    if(aux.getId() == nodo.getId()) {
-//                        repetido = true;
-//                        break;
-//                    }
-//                    aux = aux.getSiguiente(); 
-//                }
-//                if(repetido) {
-//                    System.out.println("Valor repetido");
-//                } else {
-//                    NodoLista anterior = aux.getAnterior();
-//                    NodoLista siguiente = aux.getSiguiente();
-//                    anterior.setSiguiente(nodo);
-//                    siguiente.setAnterior(nodo);
-//                    nodo.setAnterior(anterior);
-//                    nodo.setSiguiente(siguiente);
-//                }
-//            } else if (nodo.getId() > fin.getId()){
-//                fin.setSiguiente(nodo);
-//                nodo.setAnterior(fin);
-//                fin = nodo;
-//            } else if (nodo.getId() == inicio.getId() || nodo.getId() == fin.getId()) {
-//                System.out.println("Valor repetido");
-//            }
-//        } else {
-//            inicio = fin = nodo;
-//            inicio.setSiguiente(fin);
-//            fin.setAnterior(inicio);
-//        }
-//    }
-    
     public void insertar(String id,Object info){
         NodoLista nodo = crearNodo(id,info);
+        if(listaVacia()){
+            inicio = fin = nodo;
+            inicio.setSiguiente(fin);
+        } else {
+            fin.setSiguiente(nodo);
+            nodo.setAnterior(fin);
+            fin = nodo;
+        }
+        size++;
+    }
+    
+    public void insertar(NodoLista nodito){
+        NodoLista nodo = nodito;
         if(listaVacia()){
             inicio = fin = nodo;
             inicio.setSiguiente(fin);
@@ -86,35 +59,58 @@ public class ListaDoble {
             System.out.println("Lista Vacia");
             return null;
         }
-        
         NodoLista aux = inicio;
-        while(aux.getSiguiente() != null) {
-            if(aux.getId().equals(id))
-                break;
-            aux = aux.getSiguiente();
-        }
-        if(id.equals(aux.getId())) {
-            NodoLista anterior = aux.getAnterior();
-            NodoLista siguiente = aux.getSiguiente();
-            anterior.setSiguiente(siguiente);
-            siguiente.setAnterior(anterior);
-            size--;
+        if(id.equals(inicio.getId())) {
+            inicio = inicio.getSiguiente();
             return aux;
-        }
-        return null;
-    }
-    
-    public void graficar(){
-        Object cosa = inicio.getInfo();
-        if(cosa instanceof Capa) {
-            
-            NodoLista aux = inicio;
-            while(aux != null) {
-                
+        } else if(id.equals(fin.getId())) {
+            aux= fin;
+            fin = fin.getAnterior();
+            return aux;
+        } else {
+
+            while(aux.getSiguiente() != null) {
+                if(aux.getId().equals(id))
+                    break;
+                aux = aux.getSiguiente();
             }
+            if(id.equals(aux.getId())) {
+                NodoLista anterior = aux.getAnterior();
+                NodoLista siguiente = aux.getSiguiente();
+                anterior.setSiguiente(siguiente);
+                siguiente.setAnterior(anterior);
+                size--;
+                return aux;
+            }
+            return null;
+
         }
     }
     
+    public NodoLista buscar(String id) {
+        if(listaVacia()){
+            return null;
+        }
+        NodoLista aux = inicio;
+        if(id.equals(inicio.getId())) {
+            return aux;
+        } else if(id.equals(fin.getId())) {
+            aux= fin;
+            return aux;
+        } else {
+            if(inicio != fin){
+                while(aux.getSiguiente() != null) {
+                    if(aux.getId().equals(id))
+                        return aux;
+                    aux = aux.getSiguiente();
+                }
+                if(id.equals(aux.getId())) {
+                    return aux;
+                }
+            }
+            return null;
+        }
+    }
     public static NodoLista crearNodo(String id,Object info) {
         return new NodoLista(id,info);
     }
